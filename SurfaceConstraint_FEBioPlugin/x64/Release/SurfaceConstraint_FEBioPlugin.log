@@ -1,0 +1,69 @@
+﻿  FENormalConstraint.cpp
+FENormalConstraint.cpp(184): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+FENormalConstraint.cpp(256): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(1769): note: see declaration of 'sprintf'
+FENormalConstraint.cpp(325): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(1769): note: see declaration of 'sprintf'
+     Creating library D:\gits\FEBio\FENormalConstraint\x64\Release\SurfaceConstraint_FEBioPlugin.lib and object D:\gits\FEBio\FENormalConstraint\x64\Release\SurfaceConstraint_FEBioPlugin.exp
+  Generating code
+  15 of 422 functions ( 3.6%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    24 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+FECore.lib(BC.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(BC.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(Callback.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(Callback.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(colsol.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(colsol.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(DOFS.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(DOFS.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(DumpMemStream.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(DumpMemStream.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(DumpStream.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(DumpStream.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FEAnalysis.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FEAnalysis.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FEBoundaryCondition.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FEBoundaryCondition.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FECoreBase.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FECoreBase.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FECoreFactory.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FECoreFactory.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FECoreKernel.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FECoreKernel.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FEDataArray.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FEDataArray.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FEDataExport.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FEDataExport.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FEDataLoadCurve.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FEDataLoadCurve.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FEDomain.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FEDomain.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FEEdge.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FEEdge.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FEElemElemList.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FEElemElemList.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FEElement.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FEElement.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FEElementLibrary.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FEElementLibrary.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FEElementList.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FEElementList.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FEElementTraits.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FEElementTraits.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FEException.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FEException.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FEFunction1D.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FEFunction1D.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FEGlobalMatrix.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FEGlobalMatrix.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FELinearConstraint.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FELinearConstraint.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FELinearConstraintManager.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FELinearConstraintManager.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FEMathValue.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FEMathValue.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FEMesh.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FEMesh.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FEModel.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FEModel.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FEModelComponent.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FEModelComponent.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FEModelData.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FEModelData.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FENLConstraint.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FENLConstraint.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FENodeDataMap.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FENodeDataMap.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FENodeElemList.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FENodeElemList.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FEParam.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FEParam.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FEParameterList.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FEParameterList.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FEParamValidator.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FEParamValidator.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FEProperty.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FEProperty.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FERigidBody.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FERigidBody.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FERigidSystem.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FERigidSystem.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FESolidDomain.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FESolidDomain.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FESurface.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FESurface.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FESurfaceConstraint.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FESurfaceConstraint.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FETimeInfo.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FETimeInfo.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(FETimeStepController.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(FETimeStepController.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(LoadCurve.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(LoadCurve.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(Logfile.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(Logfile.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(MathParser.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(MathParser.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(matrix.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(matrix.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(MatrixProfile.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(MatrixProfile.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(ParamString.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(ParamString.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(RigidBC.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(RigidBC.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(svd.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(svd.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(Timer.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(Timer.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+FECore.lib(tools.obj) : warning LNK4099: PDB 'FECore.pdb' was not found with 'FECore.lib(tools.obj)' or at 'D:\gits\FEBio\FENormalConstraint\x64\Release\FECore.pdb'; linking object as if no debug info
+  SurfaceConstraint_FEBioPlugin.vcxproj -> D:\gits\FEBio\FENormalConstraint\x64\Release\SurfaceConstraint_FEBioPlugin.dll
+  SurfaceConstraint_FEBioPlugin.vcxproj -> D:\gits\FEBio\FENormalConstraint\x64\Release\SurfaceConstraint_FEBioPlugin.pdb (Full PDB)

@@ -1,0 +1,21 @@
+﻿  stdafx.cpp
+  dllmain.cpp
+  FENormalConstraint.cpp
+  FEConstrainPlugin.cpp
+  Generating Code...
+     Creating library D:\GDrive\Projects\Breast Cancer [w. UCSF]\Software\FEBio\Plugin\SurfaceConstraint_FEBioPlugin\Debug\SurfaceConstraint_FEBioPlugin.lib and object D:\GDrive\Projects\Breast Cancer [w. UCSF]\Software\FEBio\Plugin\SurfaceConstraint_FEBioPlugin\Debug\SurfaceConstraint_FEBioPlugin.exp
+FEConstrainPlugin.obj : error LNK2019: unresolved external symbol "public: __thiscall FECoreFactory::FECoreFactory(unsigned int,char const *)" (??0FECoreFactory@@QAE@IPBD@Z) referenced in function "public: __thiscall FEPluginFactory_T<class FENormalConstraint,6>::FEPluginFactory_T<class FENormalConstraint,6>(char const *)" (??0?$FEPluginFactory_T@VFENormalConstraint@@$05@@QAE@PBD@Z)
+FEConstrainPlugin.obj : error LNK2019: unresolved external symbol "public: virtual __thiscall FECoreFactory::~FECoreFactory(void)" (??1FECoreFactory@@UAE@XZ) referenced in function "public: virtual __thiscall FEPluginFactory_T<class FENormalConstraint,6>::~FEPluginFactory_T<class FENormalConstraint,6>(void)" (??1?$FEPluginFactory_T@VFENormalConstraint@@$05@@UAE@XZ)
+FEConstrainPlugin.obj : error LNK2019: unresolved external symbol "public: static void __cdecl FECoreKernel::SetInstance(class FECoreKernel *)" (?SetInstance@FECoreKernel@@SAXPAV1@@Z) referenced in function _PluginInitialize
+FENormalConstraint.obj : error LNK2001: unresolved external symbol "public: virtual class FEParam * __thiscall FEParamContainer::FindParameterFromData(void *)" (?FindParameterFromData@FEParamContainer@@UAEPAVFEParam@@PAX@Z)
+FENormalConstraint.obj : error LNK2001: unresolved external symbol "public: virtual bool __thiscall FECoreBase::Validate(void)" (?Validate@FECoreBase@@UAE_NXZ)
+FENormalConstraint.obj : error LNK2001: unresolved external symbol "public: virtual class FEParam * __thiscall FECoreBase::FindParameter(class ParamString const &)" (?FindParameter@FECoreBase@@UAEPAVFEParam@@ABVParamString@@@Z)
+FENormalConstraint.obj : error LNK2001: unresolved external symbol "public: virtual class FECoreBase * __thiscall FECoreBase::GetProperty(int)" (?GetProperty@FECoreBase@@UAEPAV1@H@Z)
+FENormalConstraint.obj : error LNK2001: unresolved external symbol "public: virtual void __thiscall FEModelComponent::Activate(void)" (?Activate@FEModelComponent@@UAEXXZ)
+FENormalConstraint.obj : error LNK2001: unresolved external symbol "public: virtual void __thiscall FEModelComponent::Deactivate(void)" (?Deactivate@FEModelComponent@@UAEXXZ)
+FENormalConstraint.obj : error LNK2001: unresolved external symbol "public: virtual void __thiscall FEModelComponent::Serialize(class DumpStream &)" (?Serialize@FEModelComponent@@UAEXAAVDumpStream@@@Z)
+FENormalConstraint.obj : error LNK2019: unresolved external symbol "public: __thiscall FENLConstraint::FENLConstraint(class FEModel *)" (??0FENLConstraint@@QAE@PAVFEModel@@@Z) referenced in function "public: __thiscall FENormalConstraint::FENormalConstraint(class FEModel *)" (??0FENormalConstraint@@QAE@PAVFEModel@@@Z)
+FENormalConstraint.obj : error LNK2019: unresolved external symbol "public: virtual __thiscall FENLConstraint::~FENLConstraint(void)" (??1FENLConstraint@@UAE@XZ) referenced in function "public: virtual __thiscall FENormalConstraint::~FENormalConstraint(void)" (??1FENormalConstraint@@UAE@XZ)
+D:\GDrive\Projects\Breast Cancer [w. UCSF]\Software\FEBio\Plugin\SDK\vs2015\Debug\lib\FECore.lib : warning LNK4272: library machine type 'x64' conflicts with target machine type 'X86'
+D:\GDrive\Projects\Breast Cancer [w. UCSF]\Software\FEBio\Plugin\SDK\vs2015\Debug\lib\FEBioMech.lib : warning LNK4272: library machine type 'x64' conflicts with target machine type 'X86'
+D:\GDrive\Projects\Breast Cancer [w. UCSF]\Software\FEBio\Plugin\SurfaceConstraint_FEBioPlugin\Debug\SurfaceConstraint_FEBioPlugin.dll : fatal error LNK1120: 12 unresolved externals
