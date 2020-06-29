@@ -105,7 +105,7 @@ BEGIN_PARAMETER_LIST(FEFixedNormalDisplacement, FESurfaceConstraint);
 	ADD_PARAMETER(m_maxAug, FE_PARAM_INT, "maxAug");
 	ADD_PARAMETER(m_minAug, FE_PARAM_INT, "minAug");
 	ADD_PARAMETER(m_autoeps, FE_PARAM_BOOL, "autoPen");
-	ADD_PARAMETER(m_reEps, FE_PARAM_BOOL, "recalculate_penalty");
+	ADD_PARAMETER(m_tol, FE_PARAM_DOUBLE, "recalc_tolerance");
 END_PARAMETER_LIST();
 
 FEFixedNormalDisplacement::FEFixedNormalDisplacement(FEModel* pfem) : FESurfaceConstraint(pfem), m_s(&pfem->GetMesh())
@@ -117,12 +117,7 @@ FEFixedNormalDisplacement::FEFixedNormalDisplacement(FEModel* pfem) : FESurfaceC
 	m_blaugon = false;
 	m_binit = false;
 	m_autoeps = false;
-
-	
-
-	
-	felog.printbox("Constructor", "opened variable log");
-	oldTime = 0.0;
+	m_tol = .02;
 	
 	m_dofX = pfem->GetDOFIndex("x");
 	m_dofY = pfem->GetDOFIndex("y");
@@ -133,6 +128,8 @@ FEFixedNormalDisplacement::FEFixedNormalDisplacement(FEModel* pfem) : FESurfaceC
 
 FEFixedNormalDisplacement::~FEFixedNormalDisplacement()
 {
+
+	time_log.close();
 }
 
 void FEFixedNormalDisplacement::CopyFrom(FENLConstraint* plc)
@@ -159,37 +156,53 @@ void FEFixedNormalDisplacement::Activate()
 	}
 
 	
-	if (m_autoeps) CalcAutoPenalty(m_s);								// Calculate Auto Penalty if enabled [06/23/2020]
+	//if (m_autoeps) CalcAutoPenalty(m_s);								// Calculate Auto Penalty if enabled [06/23/2020]
+
+	time_log.open("./logs/nu_log.txt");
 
 	m_binit = true;
 
-	write_variable(line);
+	sprintf(line, "times, avgNU, maxNU, minNU, sdNU, penalty\n");
+	time_log << line;
 
 }
 
 
-void FEFixedNormalDisplacement::CalcAutoPenalty(FEVolumeSurface& s) {	// This function gets the automaticlly
+void FEFixedNormalDisplacement::CalcAutoPenalty(FEVolumeSurface& s, double* list, FETimeInfo tp) {	// This function gets the automaticlly
 	FEMesh& m = GetFEModel()->GetMesh();								// calculated penalty factor for each element
 																		// [06/22/2020]
 
-	felog.printf("\n\n Calculationg auto penalty. \n");
-	felog.printf("Pre-Auto pen Penalty Factor: %f\n", m_eps);
-	float aeps = 0.0;
+
+	int scaleVal = 100;											//!< This value is the base for modifying the eps
+	char pen[100];
+	double avg = 0.0;
+	sprintf(pen, "Pre-Auto pen Penalty Factor: %f\n", m_eps);
+	felog.printbox("Calculating auto penalty.", pen);
+
+	double max = 0.0;
+	double min = 100000000000;
 	for (int i = 0; i < s.Elements(); ++i) {
 		FESurfaceElement& el = s.Element(i);
 
-		double eps = AutoPenalty(el, s);
+		double val = abs(list[i]);
+		if (val > max) max = abs(val);
+		if (val < min) min = val;
 
-
-		aeps += eps;
+		avg += val;
 	}
 
-	m_eps = aeps / s.Elements();
-	felog.printf("Post-Auto pen Penalty Factor: %f\n", m_eps);
+
+	m_eps += scaleVal * max;
+	
+	sprintf(line, "%f, %f, %f, %f, sd, %f\n", tp.currentTime, avg, max, min, m_eps);
+	time_log << line;
+
+	sprintf(pen, "Post-Auto pen Penalty Factor: %f\n", m_eps);
+	felog.printbox("Calculating auto penalty.", pen);
 }
 
 double FEFixedNormalDisplacement::AutoPenalty(FESurfaceElement& el, FESurface& s) {
-	FEMesh& m = GetFEModel()->GetMesh();
+	/*FEMesh& m = GetFEModel()->GetMesh();
 
 	FEElement* pe = m.FindElementFromID(el.GetID());
 	if(pe == 0) return 0.0;
@@ -216,15 +229,9 @@ double FEFixedNormalDisplacement::AutoPenalty(FESurfaceElement& el, FESurface& s
 	double A = s.FaceArea(el);
 	double V = m.ElementVolume(*pe);
 
-	return eps * A / V;
-
+	return eps * A / V;*/
 }
 
-
-// Write variables to custom log file [06/25/2020]
-void FEFixedNormalDisplacement::write_variable(char* s) {
-	var_log << s;
-}
 
 //-----------------------------------------------------------------------------
 void FEFixedNormalDisplacement::UnpackLM(FEElement& el, vector<int>& lm)
@@ -252,18 +259,21 @@ void FEFixedNormalDisplacement::Residual(FEGlobalVector& R, const FETimeInfo& tp
 	vector<double> fe;
 	vector<int> lm;
 
+	ofstream var_log;
+
 	char filename[100];
 	sprintf(filename, "./logs/time_%f.txt", tp.currentTime);
 	var_log.open(filename);
-	write_variable("currenttime, element, point, ux, uy, uz, nx, ny, nz \n");
-
-
-	//double p = m_s.m_p;															// this is not needed here --06/20/2020--
-
+	var_log << "currenttime, element, point, ux, uy, uz, nx, ny, nz \n";
 
 	int NE = m_s.Elements();
 	vec3d x[FEElement::MAX_NODES];
 	vec3d un[FEElement::MAX_NODES];													// declaration of nodal dispalcement --06/18/2020--
+	
+	// Create nu value list
+	double* nu_list;
+	nu_list = new double[NE];
+
 	for (int i = 0; i < NE; ++i)
 	{
 
@@ -322,22 +332,22 @@ void FEFixedNormalDisplacement::Residual(FEGlobalVector& R, const FETimeInfo& tp
 
 			// Calculate desired log data
 			double nu = n*u;
+			
+			nu_list[i] = nu;
+
+
 			// Write out U and V variables to a log [06/25/2020]
 			// sprintf(line,"%f, %d, %d, %f, %f, %f, %f, %f, %f\n",tp.currentTime, i, k, u.x, u.y, u.z, n.x, n.y, n.z);		// original, raw data
 			sprintf(line, "%f, %f\n", tp.currentTime, nu);
-			write_variable(line);
+			var_log << line;
 		
 		}
 
 		UnpackLM(el, lm);
 
 		R.Assemble(el.m_node, lm, fe);
-
-		if (m_reEps && m_autoeps) CalcAutoPenalty(m_s);
-		
 	}
-
-	oldTime = tp.currentTime;
+	if (m_autoeps) CalcAutoPenalty(m_s, nu_list, tp);
 	var_log.close();
 }
 

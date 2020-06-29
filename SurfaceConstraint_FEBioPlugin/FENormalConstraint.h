@@ -54,11 +54,8 @@ public:
 
 	FESurface* GetSurface() override;
 
-	void CalcAutoPenalty(FEVolumeSurface& s);
+	void CalcAutoPenalty(FEVolumeSurface& s, double* list, FETimeInfo tp);
 	double AutoPenalty(FESurfaceElement& el, FESurface& s);
-
-	// output log function
-	virtual void write_variable(char* s);
 
 
 public:
@@ -71,12 +68,11 @@ public:
 	int		m_maxAug;	//!< maximum augmentation calculations
 	int		m_minAug;	//!< minimum augmentation calculations
 	bool	m_autoeps;	//!< whether or not to use auto penalty
-	bool	m_reEps;	//!< Whether or not to recaclculate the penalty factor each frame
+	double	m_tol;		//!< The tolelrance of the UN value at which a stiffness reformation will happen
 
 	// output variable log variables [06/25/2020]
-	ofstream	var_log;	///!< The pointer to the log file
+	ofstream	time_log;	///!< The pointer to the log file
 	char		line[100];
-	double		oldTime;
 
 
 private:
