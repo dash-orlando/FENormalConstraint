@@ -106,6 +106,7 @@ BEGIN_PARAMETER_LIST(FEFixedNormalDisplacement, FESurfaceConstraint);
 	ADD_PARAMETER(m_minAug, FE_PARAM_INT, "minAug");
 	ADD_PARAMETER(m_autoeps, FE_PARAM_BOOL, "autoPen");
 	ADD_PARAMETER(m_tol, FE_PARAM_DOUBLE, "recalc_tolerance");
+	ADD_PARAMETER(m_scaleVar, FE_PARAM_DOUBLE, "scale_amount");
 END_PARAMETER_LIST();
 
 FEFixedNormalDisplacement::FEFixedNormalDisplacement(FEModel* pfem) : FESurfaceConstraint(pfem), m_s(&pfem->GetMesh())
@@ -118,6 +119,7 @@ FEFixedNormalDisplacement::FEFixedNormalDisplacement(FEModel* pfem) : FESurfaceC
 	m_binit = false;
 	m_autoeps = false;
 	m_tol = .02;
+	m_scaleVar = 100;
 	
 	m_dofX = pfem->GetDOFIndex("x");
 	m_dofY = pfem->GetDOFIndex("y");
@@ -172,8 +174,6 @@ void FEFixedNormalDisplacement::CalcAutoPenalty(FEVolumeSurface& s, double* list
 	FEMesh& m = GetFEModel()->GetMesh();								// calculated penalty factor for each element
 																		// [06/22/2020]
 
-
-	int scaleVal = 100;											//!< This value is the base for modifying the eps
 	char pen[100];
 	double avg = 0.0;
 	sprintf(pen, "Pre-Auto pen Penalty Factor: %f\n", m_eps);
@@ -191,10 +191,21 @@ void FEFixedNormalDisplacement::CalcAutoPenalty(FEVolumeSurface& s, double* list
 		avg += val;
 	}
 
+	avg = avg / s.Elements();
 
-	m_eps += scaleVal * max;
+	double deviations = 0.0;
+	for (int i = 0; i < s.Elements(); ++i) {
+		deviations += (list[i] - avg) * (list[i] - avg);
+	}
+
+	deviations = deviations / s.Elements();
+
+
+
+
+	m_eps += m_scaleVar * max;
 	
-	sprintf(line, "%f, %f, %f, %f, sd, %f\n", tp.currentTime, avg, max, min, m_eps);
+	sprintf(line, "%f, %f, %f, %f, %f, %f\n", tp.currentTime, avg, max, min, deviations, m_eps);
 	time_log << line;
 
 	sprintf(pen, "Post-Auto pen Penalty Factor: %f\n", m_eps);

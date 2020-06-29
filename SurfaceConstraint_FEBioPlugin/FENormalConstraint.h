@@ -69,6 +69,7 @@ public:
 	int		m_minAug;	//!< minimum augmentation calculations
 	bool	m_autoeps;	//!< whether or not to use auto penalty
 	double	m_tol;		//!< The tolelrance of the UN value at which a stiffness reformation will happen
+	double	m_scaleVar;	//!< The number multiplied by the max NU value to augment the penalty
 
 	// output variable log variables [06/25/2020]
 	ofstream	time_log;	///!< The pointer to the log file
@@ -76,7 +77,7 @@ public:
 
 
 private:
-	bool	m_binit;	//!< flag indicating whether the constraint is initialized
+	bool m_binit;	//!< flag indicating whether the constraint is initialized
 
 	int m_dofX;
 	int m_dofY;
