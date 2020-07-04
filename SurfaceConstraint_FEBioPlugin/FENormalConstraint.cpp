@@ -160,12 +160,12 @@ void FEFixedNormalDisplacement::Activate()
 	
 	//if (m_autoeps) CalcAutoPenalty(m_s);								// Calculate Auto Penalty if enabled [06/23/2020]
 
-	time_log.open("./logs/nu_log.txt");
+	//time_log.open("./logs/nu_log.txt");
 
 	m_binit = true;
 
-	sprintf(line, "times, avgNU, maxNU, minNU, sdNU, penalty\n");
-	time_log << line;
+	//sprintf(line, "times, avgNU, maxNU, minNU, sdNU, penalty\n");
+	//time_log << line;
 
 }
 
@@ -275,7 +275,7 @@ void FEFixedNormalDisplacement::Residual(FEGlobalVector& R, const FETimeInfo& tp
 	char filename[100];
 	sprintf(filename, "./logs/time_%f.txt", tp.currentTime);
 	var_log.open(filename);
-	var_log << "currenttime, element, point, ux, uy, uz, nx, ny, nz \n";
+	//var_log << "currenttime, element, point, ux, uy, uz, nx, ny, nz \n";
 
 	int NE = m_s.Elements();
 	vec3d x[FEElement::MAX_NODES];
