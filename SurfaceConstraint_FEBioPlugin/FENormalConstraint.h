@@ -54,9 +54,6 @@ public:
 
 	FESurface* GetSurface() override;
 
-	void CalcAutoPenalty(FEVolumeSurface& s);
-	double AutoPenalty(FESurfaceElement& el, FESurface& s);
-
 	// output log function
 	virtual void write_variable(char* s);
 
@@ -70,8 +67,6 @@ public:
 	bool	m_blaugon;	//!< augmentation flag
 	int		m_maxAug;	//!< maximum augmentation calculations
 	int		m_minAug;	//!< minimum augmentation calculations
-	bool	m_autoeps;	//!< whether or not to use auto penalty
-	bool	m_reEps;	//!< Whether or not to recaclculate the penalty factor each frame
 
 	// output variable log variables [06/25/2020]
 	ofstream	var_log;	///!< The pointer to the log file

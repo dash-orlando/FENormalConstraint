@@ -103,9 +103,7 @@ BEGIN_PARAMETER_LIST(FEFixedNormalDisplacement, FESurfaceConstraint);
 	ADD_PARAMETER(m_atol, FE_PARAM_DOUBLE, "augtol");
 	ADD_PARAMETER(m_eps, FE_PARAM_DOUBLE, "penalty");
 	ADD_PARAMETER(m_maxAug, FE_PARAM_INT, "maxAug");
-	ADD_PARAMETER(m_minAug, FE_PARAM_INT, "minAug");
-	ADD_PARAMETER(m_autoeps, FE_PARAM_BOOL, "autoPen");
-	ADD_PARAMETER(m_reEps, FE_PARAM_BOOL, "recalculate_penalty");
+	ADD_PARAMETER(m_minAug, FE_PARAM_INT, "minAug");  
 END_PARAMETER_LIST();
 
 FEFixedNormalDisplacement::FEFixedNormalDisplacement(FEModel* pfem) : FESurfaceConstraint(pfem), m_s(&pfem->GetMesh())
@@ -116,7 +114,6 @@ FEFixedNormalDisplacement::FEFixedNormalDisplacement(FEModel* pfem) : FESurfaceC
 	m_minAug = 0;
 	m_blaugon = false;
 	m_binit = false;
-	m_autoeps = false;
 
 	
 
@@ -158,65 +155,9 @@ void FEFixedNormalDisplacement::Activate()
 		m_s.Init();
 	}
 
-	
-	if (m_autoeps) CalcAutoPenalty(m_s);								// Calculate Auto Penalty if enabled [06/23/2020]
-
 	m_binit = true;
 
 	write_variable(line);
-
-}
-
-
-void FEFixedNormalDisplacement::CalcAutoPenalty(FEVolumeSurface& s) {	// This function gets the automaticlly
-	FEMesh& m = GetFEModel()->GetMesh();								// calculated penalty factor for each element
-																		// [06/22/2020]
-
-	felog.printf("\n\n Calculationg auto penalty. \n");
-	felog.printf("Pre-Auto pen Penalty Factor: %f\n", m_eps);
-	float aeps = 0.0;
-	for (int i = 0; i < s.Elements(); ++i) {
-		FESurfaceElement& el = s.Element(i);
-
-		double eps = AutoPenalty(el, s);
-
-
-		aeps += eps;
-	}
-
-	m_eps = aeps / s.Elements();
-	felog.printf("Post-Auto pen Penalty Factor: %f\n", m_eps);
-}
-
-double FEFixedNormalDisplacement::AutoPenalty(FESurfaceElement& el, FESurface& s) {
-	FEMesh& m = GetFEModel()->GetMesh();
-
-	FEElement* pe = m.FindElementFromID(el.GetID());
-	if(pe == 0) return 0.0;
-
-	FEElasticMaterial* pme = GetFEModel()->GetMaterial(pe->GetMatID())->GetElasticMaterial();
-	if (pme == 0) return 0.0;
-
-	FEMaterialPoint& mp = *pe->GetMaterialPoint(0);
-	FEElasticMaterialPoint& pt = *(mp.ExtractData<FEElasticMaterialPoint>());
-
-	pt.m_F = mat3dd(1.0);
-	pt.m_J = 1;
-	pt.m_s.zero();
-
-	tens4ds S = pme->Tangent(mp);
-	tens4ds C = S.inverse();
-
-	vec3d t[2];
-	s.CoBaseVectors0(el, 0, 0, t);
-	vec3d n = t[0] ^ t[1];
-	n.unit();
-
-	double eps = 1. / (n * (vdotTdotv(n, C, n) * n));
-	double A = s.FaceArea(el);
-	double V = m.ElementVolume(*pe);
-
-	return eps * A / V;
 
 }
 
@@ -332,8 +273,6 @@ void FEFixedNormalDisplacement::Residual(FEGlobalVector& R, const FETimeInfo& tp
 		UnpackLM(el, lm);
 
 		R.Assemble(el.m_node, lm, fe);
-
-		if (m_reEps && m_autoeps) CalcAutoPenalty(m_s);
 		
 	}
 
