@@ -4,122 +4,20 @@
 #include "FENormalConstraint.h"
 #include <FECore/FEModel.h>
 #include <FECore/log.h>
-#include <FECore/FEDataExport.h>
-#include <FEBioMech/FEElasticMaterial.h>
+#include <FECore/FECoreKernel.h>
 #include <iostream>							// Added variables for file writing [06/25/2020]
 #include <fstream>							// Added variables for file writing [06/25/2020]
-
 using namespace std;
 
-//-----------------------------------------------------------------------------
-//! constructor
-FEVolumeSurface::FEVolumeSurface(FEMesh* pm) : FESurface(pm)
-{
-	m_Lp = 0.0;
-	m_p = 0.0;
-	m_V0 = 0.0;
-	m_Vt = 0.0;
-
-	EXPORT_DATA(PLT_FLOAT, FMT_REGION, &m_p, "volume pressure");
-}
-
-// Checks that the new surface's volume is not 0
-bool FEVolumeSurface::Init()
-{
-	m_V0 = Volume();	//Set initial volume
-	m_Vt = m_V0;		//Set current volume
-
-	return (m_V0 != 0.0);
-}
-
-void FEVolumeSurface::CopyFrom(FEVolumeSurface& s)
-{
-	m_Node = s.m_Node;		//all nodes in the surface? in the mesh?
-
-	int NE = s.Elements();	// all the elements in the surface ? in the mesh ?
-	Create(NE);				// creates the 
-}
-
-// serializing is saving, so saving/loading function?
-void FEVolumeSurface::Serialize(DumpStream& ar)
-{
-	FESurface::Serialize(ar);
-	if (ar.IsSaving())
-	{
-		ar << m_Lp << m_p << m_V0 << m_Vt;
-	}
-	else
-	{
-		ar >> m_Lp >> m_p >> m_V0 >> m_Vt;
-	}
-}
-
-// Calculate initial volume
-double FEVolumeSurface::Volume()
-{
-	FEMesh& mesh = *GetMesh(); // get mesh pointer
-
-	double vol = 0.0;
-	int NE = Elements();
-	vec3d x[FEElement::MAX_NODES];
-	for (int i = 0; i < NE; ++i)
-	{
-		// get element
-		FESurfaceElement& el = Element(i);
-
-		// get nodal coordinates
-		int neln = el.Nodes();
-		for (int j = 0; j < neln; ++j)
-		{
-			x[j] = mesh.Node(el.m_node[j]).m_rt;
-		}
-
-		double* w = el.GaussWeights();
-		int nint = el.GaussPoints(); // integration points
-		for (int n = 0; n < nint; ++n)
-		{
-			//get position vector
-			vec3d r = el.eval(x, n);
-
-			// calculate tangent vector
-			double* Gr = el.Gr(n);
-			double* Gs = el.Gs(n);
-			vec3d dxr(0, 0, 0), dxs(0, 0, 0);
-			for (int j = 0; j < neln; ++j)
-			{
-				dxr += x[j] * Gr[j];
-				dxs += x[j] * Gs[j];
-			}
-
-			vol += w[n] * (r*(dxr^dxs)); // update volume
-		}
-	}
-
-	return vol / 3.0;
-}
-
 BEGIN_PARAMETER_LIST(FEFixedNormalDisplacement, FESurfaceConstraint);
-	ADD_PARAMETER(m_blaugon, FE_PARAM_BOOL, "laugon");
-	ADD_PARAMETER(m_atol, FE_PARAM_DOUBLE, "augtol");
 	ADD_PARAMETER(m_eps, FE_PARAM_DOUBLE, "penalty");
-	ADD_PARAMETER(m_maxAug, FE_PARAM_INT, "maxAug");
-	ADD_PARAMETER(m_minAug, FE_PARAM_INT, "minAug");  
 END_PARAMETER_LIST();
 
 FEFixedNormalDisplacement::FEFixedNormalDisplacement(FEModel* pfem) : FESurfaceConstraint(pfem), m_s(&pfem->GetMesh())
 {
 	m_eps = 0.0;
-	m_atol = 0.0;
-	m_maxAug = 10;
-	m_minAug = 0;
-	m_blaugon = false;
+
 	m_binit = false;
-
-	
-
-	
-	felog.printbox("Constructor", "opened variable log");
-	oldTime = 0.0;
 	
 	m_dofX = pfem->GetDOFIndex("x");
 	m_dofY = pfem->GetDOFIndex("y");
@@ -130,15 +28,6 @@ FEFixedNormalDisplacement::FEFixedNormalDisplacement(FEModel* pfem) : FESurfaceC
 
 FEFixedNormalDisplacement::~FEFixedNormalDisplacement()
 {
-}
-
-void FEFixedNormalDisplacement::CopyFrom(FENLConstraint* plc)
-{
-	FEFixedNormalDisplacement& vc = dynamic_cast<FEFixedNormalDisplacement&>(*plc);
-
-	GetParameterList() = vc.GetParameterList();
-
-	m_s.CopyFrom(vc.m_s);
 }
 
 FESurface* FEFixedNormalDisplacement::GetSurface()
@@ -276,7 +165,6 @@ void FEFixedNormalDisplacement::Residual(FEGlobalVector& R, const FETimeInfo& tp
 		
 	}
 
-	oldTime = tp.currentTime;
 	var_log.close();
 }
 
@@ -416,50 +304,6 @@ void FEFixedNormalDisplacement::StiffnessMatrix(FESolver* psolver, const FETimeI
 
 }
 
-//-----------------------------------------------------------------------------
-/* Augment is contained in the header 06/22/2020
-bool FEFixedNormalDisplacement::Augment(int naug, const FETimeInfo& tp)
-{
-	bool bconv = true;
-	return bconv;
-
-	if (!m_blaugon || m_atol <= 0.0) {
-		return true;
-	}
-
-	if (naug > m_maxAug) {
-		bconv = true;
-	}
-
-	double Dp = m_eps*(m_s.m_Vt - m_s.m_V0);
-	double Lp = m_s.m_p;
-	double err = fabs(Dp / Lp);
-
-	
-	if (err < m_atol) {
-		bconv = true;
-	}
-
-	if (!bconv == true) {
-		m_s.m_Lp = Lp;
-		m_s.m_p = Lp + Dp;
-	}
-	
-	// here we need to print the augmented tolerance value...
-
-	if (naug > m_minAug) {
-		bconv = false;
-	}
-
-	felog.printf("*** FENormalConstaint ***************************\n");
-	felog.printf("*  Augment()                                    *\n");
-	felog.printf("*  m_eps = %f                                   *\n", m_eps);
-	felog.printf("*************************************************\n");
-
-	return bconv;
-}
-*/
-
 void FEFixedNormalDisplacement::Serialize(DumpStream& ar)
 {
 	FENLConstraint::Serialize(ar);
@@ -478,22 +322,8 @@ void FEFixedNormalDisplacement::Serialize(DumpStream& ar)
 	felog.printf("*************************************************\n");*/
 }
 
-void FEFixedNormalDisplacement::Reset()
-{
-
-}
-
 //-----------------------------------------------------------------------------
 void FEFixedNormalDisplacement::BuildMatrixProfile(FEGlobalMatrix& M)
 {
 	// nothing to do here
 }
-
-void FEFixedNormalDisplacement::Update(int niter, const FETimeInfo& tp)
-{
-	m_s.m_Vt = m_s.Volume();
-
-	m_s.m_p = m_s.m_Lp + m_eps*(m_s.m_Vt - m_s.m_V0);
-
-}
-

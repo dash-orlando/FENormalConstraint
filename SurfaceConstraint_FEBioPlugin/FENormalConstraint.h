@@ -6,31 +6,6 @@
 #include <fstream>							// Added variables for file writing [06/25/2020]
 
 
-class FEVolumeSurface : public FESurface
-{
-public:
-	//! constructor
-	FEVolumeSurface(FEMesh* pm);
-
-	//! Initialization
-	bool Init();
-
-	//! copy data
-	void CopyFrom(FEVolumeSurface& s);
-
-	//! serialization
-	void Serialize(DumpStream& ar);
-
-public:
-	double Volume();
-
-public:
-	double	m_Lp;	//!< Lagrange multipler pressure
-	double	m_p;	//!< applied pressure (= Lp + eps*DV)
-	double	m_V0;	//!< Initial volume
-	double	m_Vt;	//!< current volume
-};
-
 class FEFixedNormalDisplacement : public FESurfaceConstraint
 {
 public:
@@ -43,10 +18,6 @@ public:
 	void StiffnessMatrix(FESolver* psolver, const FETimeInfo& tp) override;
 	bool Augment(int naug, const FETimeInfo& tp) override { return true; }
 	void Serialize(DumpStream& ar) override;
-	void CopyFrom(FENLConstraint* plc) override;
-
-	void Reset() override;
-	void Update(int niter, const FETimeInfo& tp) override;
 
 	void UnpackLM(FEElement& el, vector<int>& lm);
 	
@@ -57,21 +28,13 @@ public:
 	// output log function
 	virtual void write_variable(char* s);
 
-
 public:
-	FEVolumeSurface m_s;
-
-public:
-	double	m_eps;		//!< penalty parameter
-	double	m_atol;		//!< augmented Lagrangian tolerance
-	bool	m_blaugon;	//!< augmentation flag
-	int		m_maxAug;	//!< maximum augmentation calculations
-	int		m_minAug;	//!< minimum augmentation calculations
+	double		m_eps;		//!< penalty parameter
+	FESurface	m_s;
 
 	// output variable log variables [06/25/2020]
 	ofstream	var_log;	///!< The pointer to the log file
 	char		line[100];
-	double		oldTime;
 
 
 private:
